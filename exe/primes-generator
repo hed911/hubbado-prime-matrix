@@ -12,8 +12,8 @@ parser = OptionParser.new do |opt|
   opt.define_head spec.summary
   opt.separator ""
 
-  opt.on("-n", "--numberSize [N]", Integer, "Size of the matrix(0 <= n <= #{Primes::Generator::MAX_SIZE})") do |no|
-    options[:size] = no
+  opt.on("-n NUM", "--numberSize NUM", Integer, "Size of the matrix(0 <= n <= #{Primes::Generator::MAX_SIZE})") do |n|
+    options[:size] = n
   end
 
   opt.on("-h", "--help", "Display this screen") do |n|
@@ -24,6 +24,11 @@ end
 
 begin
   parser.parse!
+  omitted_arg = options[:size].nil?
+  options[:size] = Primes::Generator::DEFAULT_VALUE if omitted_arg
+  puts ""
+  puts "n = #{options[:size]} #{"(DEFAULT VALUE) run the command #{File.basename($0)} --help for more details" if omitted_arg}"
+  puts ""
   result = Primes::Matrix.create(options[:size])
   puts "Procesing data please wait ..." if options[:size] >= Primes::Generator::BIG_VALUE
   result.pretty_print
