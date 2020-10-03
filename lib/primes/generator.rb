@@ -23,6 +23,7 @@ module Primes
     end
 
     # Newer version with Lower O(n)
+    # Check any element starting from 2 until find n prime numbers
     def self.numbers_in_array(n)
       result = []
       i = 2

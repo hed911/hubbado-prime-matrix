@@ -1,12 +1,8 @@
 require "primes/generator"
 
 class Array
+  # This print the 2D array with a better style making any row contains elements without a coma separator
   def pretty_print
     puts self.map { |x| x.join(" ") }
-
-    #This way dont work for higher values of n
-    #self.each do |row|
-    #  puts "|#{row.map { |col| "#{" " * (Primes::Generator::MATRIX_GAP - col.to_s.length)}#{col}" }.join(" ")}|"
-    #end
   end
 end
