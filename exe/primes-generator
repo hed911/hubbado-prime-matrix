@@ -1,0 +1,42 @@
+#!/usr/bin/env ruby
+
+require "bundler/setup"
+require "primes/matrix/matrix"
+require "primes/generator"
+require "optparse"
+
+options = {}
+spec = Gem::Specification::load("primes-generator.gemspec")
+parser = OptionParser.new do |opt|
+  opt.banner = "Usage #{spec.name} [options]"
+  opt.define_head spec.summary
+  opt.separator ""
+
+  opt.on("-n", "--numberSize [N]", Integer, "Size of the matrix(0 <= n <= 200)") do |no|
+    options[:size] = no
+  end
+
+  opt.on("-h", "--help", "Display this screen") do |n|
+    puts opt
+    exit
+  end
+end
+
+begin
+  parser.parse!
+  result = Primes::Matrix.create(options[:size])
+  puts "Procesing data please wait ..." if options[:size] >= Primes::Generator::BIG_VALUE
+  result.pretty_print
+rescue OptionParser::InvalidArgument => e
+  STDERR.puts "#{e.message}, run the command #{File.basename($0)} --help for more details"
+rescue OptionParser::MissingArgument => e
+  STDERR.puts "#{e.message}, run the command #{File.basename($0)} --help for more details"
+rescue OptionParser::InvalidOption => e
+  STDERR.puts "#{e.message}, run the command #{File.basename($0)} --help for more details"
+rescue ArgumentError => e
+  STDERR.puts "#{e.message}, run the command #{File.basename($0)} --help for more details"
+rescue Primes::Matrix::InvalidSize => e
+  STDERR.puts "#{e.message}, run the command #{File.basename($0)} --help for more details"
+rescue Exception => e
+  STDERR.puts "Sorry, there was an internal error #{e.message}"
+end
