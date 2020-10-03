@@ -12,7 +12,7 @@ parser = OptionParser.new do |opt|
   opt.define_head spec.summary
   opt.separator ""
 
-  opt.on("-n", "--numberSize [N]", Integer, "Size of the matrix(0 <= n <= 200)") do |no|
+  opt.on("-n", "--numberSize [N]", Integer, "Size of the matrix(0 <= n <= #{Primes::Generator::MAX_SIZE})") do |no|
     options[:size] = no
   end
 
@@ -37,6 +37,6 @@ rescue ArgumentError => e
   STDERR.puts "#{e.message}, run the command #{File.basename($0)} --help for more details"
 rescue Primes::Matrix::InvalidSize => e
   STDERR.puts "#{e.message}, run the command #{File.basename($0)} --help for more details"
-rescue Exception => e
-  STDERR.puts "Sorry, there was an internal error #{e.message}"
+  #rescue Exception => e
+  #  STDERR.puts "Sorry, there was an internal error #{e.message}"
 end

@@ -1,49 +1,56 @@
-# Primes::Generator
+# Prime numbers sum matrix
 
-```ruby
-Primes::Generator.numbers_in_array(n)
+## Problem explained
+
+Write a simple program which takes a single number n from the user and in response displays n\*n table, such that the content of cell (a,b) is a sum of a-th and b-th prime number.
+So for example for input `3` the output should read:
+4 5 7
+5 6 8
+7 8 10
+
+## Technologies Used:
+
+Built using:
+
+- Ruby
+- RSpec
+- CLI (Command Line)
+- Github
+
+## How to use:
+
+Clone the repository:
+
+```shell
+$ git clone https://github.com/hed911/hubbado-prime-matrix
 ```
 
-# Primes::Matrix
+Change into the directory:
 
-```ruby
-Primes::Matrix.crete(n)
+```shell
+$ cd hubbado-prime-matrix
 ```
 
-## Installation
+Install gems:
 
-Add this line to your application's Gemfile:
-
-```ruby
-gem 'primes-generator'
+```shell
+$ bundle
 ```
 
-And then execute:
+To run tests:
 
-    $ bundle install
+```shell
+$ rspec
+```
 
-Or install it yourself as:
+To get the n\*n matrix with the sum of prime numbers (with n = 3):
 
-    $ gem install primes-generator
+```shell
+$ ./exe/primes-generator -n 3
+```
 
-## Usage
+To list the commands and arguments:
 
-TODO: Write usage instructions here
-
-## Development
-
-After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake spec` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
-
-To install this gem onto your local machine, run `bundle exec rake install`. To release a new version, update the version number in `version.rb`, and then run `bundle exec rake release`, which will create a git tag for the version, push git commits and tags, and push the `.gem` file to [rubygems.org](https://rubygems.org).
-
-## Contributing
-
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/primes-generator. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [code of conduct](https://github.com/[USERNAME]/primes-generator/blob/master/CODE_OF_CONDUCT.md).
-
-## License
-
-The gem is available as open source under the terms of the [MIT License](https://opensource.org/licenses/MIT).
-
-## Code of Conduct
-
-Everyone interacting in the Primes::Generator project's codebases, issue trackers, chat rooms and mailing lists is expected to follow the [code of conduct](https://github.com/[USERNAME]/primes-generator/blob/master/CODE_OF_CONDUCT.md).
+```shell
+$ ./exe/primes-generator --help
+```
