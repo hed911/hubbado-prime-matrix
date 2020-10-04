@@ -3,6 +3,7 @@ require "primes/generator/version"
 module Primes
   module Generator
     class Error < StandardError; end
+    class NegativeSizeError < StandardError; end
 
     # Bruteforce version of the algorithm
     def self.numbers_in_array_before(n)
@@ -25,9 +26,10 @@ module Primes
     # Newer version with Lower O(n)
     # Check any element starting from 2 until find n prime numbers
     def self.numbers_in_array(n)
+      raise NegativeSizeError.new("Negative numbers are not allowed") if n < 0
       result = []
       i = 2
-      while result.count <= n
+      while result.count < n
         result << i if is_prime?(i)
         i += 1
       end

@@ -22,15 +22,27 @@ parser = OptionParser.new do |opt|
   end
 end
 
+def iterative_mode
+  n = nil
+  error = false
+  while n.nil?
+    puts "Enter the value of n #{"* WRONG VALUE(0 <= n <= #{Primes::Generator::MAX_SIZE}) *" if error}:"
+    n = gets.chomp
+    n = /\A\d+\z/.match(n) ? n.to_i : nil
+    error = true if n.nil? || n < 0 || n > Primes::Generator::MAX_SIZE
+  end
+  n
+end
+
 begin
   parser.parse!
   omitted_arg = options[:size].nil?
-  options[:size] = Primes::Generator::DEFAULT_VALUE if omitted_arg
+  options[:size] = iterative_mode if omitted_arg
   puts ""
-  puts "n = #{options[:size]} #{"(DEFAULT VALUE) run the command #{File.basename($0)} --help for more details" if omitted_arg}"
+  puts "n = #{options[:size]} #{" run the command #{File.basename($0)} --help for more details" if omitted_arg}"
   puts ""
-  result = Primes::Matrix.create(options[:size])
   puts "Procesing data please wait ..." if options[:size] >= Primes::Generator::BIG_VALUE
+  result = Primes::Matrix.create(options[:size])
   result.pretty_print
 rescue OptionParser::InvalidArgument => e
   STDERR.puts "#{e.message}, run the command #{File.basename($0)} --help for more details"
@@ -40,8 +52,8 @@ rescue OptionParser::InvalidOption => e
   STDERR.puts "#{e.message}, run the command #{File.basename($0)} --help for more details"
 rescue ArgumentError => e
   STDERR.puts "#{e.message}, run the command #{File.basename($0)} --help for more details"
-rescue Primes::Matrix::InvalidSize => e
+rescue Primes::Matrix::InvalidSizeError => e
   STDERR.puts "#{e.message}, run the command #{File.basename($0)} --help for more details"
   #rescue Exception => e
-  #  STDERR.puts "Sorry, there was an internal error #{e.message}"
+  #  STDERR.puts "Sorry, there was an unexpected error #{e.message}"
 end

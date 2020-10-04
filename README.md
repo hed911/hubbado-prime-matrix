@@ -58,7 +58,13 @@ To list the commands and arguments:
 $ ./exe/primes-generator --help
 ```
 
-To get the n\*n matrix with the sum of prime numbers (with n = 3):
+Run in iterative mode:
+
+```shell
+$ ./exe/primes-generator
+```
+
+Run in shortcut mode (with n = 3):
 
 ```shell
 $ ./exe/primes-generator -n 3
