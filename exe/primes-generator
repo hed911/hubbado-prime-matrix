@@ -12,8 +12,20 @@ parser = OptionParser.new do |opt|
   opt.define_head spec.summary
   opt.separator ""
 
-  opt.on("-n NUM", "--numberSize NUM", Integer, "Size of the matrix(0 <= n <= #{Primes::Generator::MAX_SIZE})") do |n|
-    options[:size] = n
+  opt.on("-a ALGORITHM", "--algorithm ALGORITHM", String, "F = Fibonacci numbers, P = Prime numbers") do |algorithm|
+    options[:algorithm] = algorithm.upcase unless algorithm.nil?
+  end
+
+  opt.on("-o OPERATION", "--operation OPERATION", String, "M = Multiplication, A = Addition") do |operation|
+    options[:operation] = operation.upcase unless operation.nil?
+  end
+
+  opt.on("-w WIDTH", "--width WIDTH", Integer, "[PRIMES - ADDITION : (0..#{Primes::Generator::MAX_SIZE_PRIME_ADDITION})] [PRIMES - MULTIPLICATION : (0..#{Primes::Generator::MAX_SIZE_PRIME_MULTIPLICATION})] [FIBONACCI - ADDITION : (0..#{Primes::Generator::MAX_SIZE_FIBONACCI_ADDITION})] [FIBONACCI - MULTIPLICATION : (0..#{Primes::Generator::MAX_SIZE_FIBONACCI_MULTIPLICATION})]") do |width|
+    options[:width] = width
+  end
+
+  opt.on("-s HEIGHT", "--height HEIGHT", Integer, "[PRIMES - ADDITION : (0..#{Primes::Generator::MAX_SIZE_PRIME_ADDITION})] [PRIMES - MULTIPLICATION : (0..#{Primes::Generator::MAX_SIZE_PRIME_MULTIPLICATION})] [FIBONACCI - ADDITION : (0..#{Primes::Generator::MAX_SIZE_FIBONACCI_ADDITION})] [FIBONACCI - MULTIPLICATION : (0..#{Primes::Generator::MAX_SIZE_FIBONACCI_MULTIPLICATION})]") do |height|
+    options[:height] = height
   end
 
   opt.on("-h", "--help", "Display this screen") do |n|
@@ -22,27 +34,62 @@ parser = OptionParser.new do |opt|
   end
 end
 
-def iterative_mode
-  n = nil
-  error = false
-  while n.nil?
-    puts "Enter the value of n #{"* WRONG VALUE(0 <= n <= #{Primes::Generator::MAX_SIZE}) *" if error}:"
-    n = gets.chomp
-    n = /\A\d+\z/.match(n) ? n.to_i : nil
-    error = true if n.nil? || n < 0 || n > Primes::Generator::MAX_SIZE
+def get_input(name, type, options = {})
+  result = nil
+  error = true
+  if type == "string"
+    hint = "(POSIBLE VALUES: #{options[:values].join(" or ")})"
+  elsif type == "integer"
+    hint = "(#{options[:min]} <= n <= #{options[:max]})"
   end
-  n
+  while result.nil?
+    puts "Enter the value of [#{name}] #{" #{hint} " if error}:"
+    result = gets.chomp
+    if result.nil?
+      error = true
+    else
+      if type == "string" && !options[:values].include?(result.upcase)
+        result = nil
+        error = true
+      elsif type == "integer"
+        result = /\A\d+\z/.match(result) ? result.to_i : nil
+        error = true if result.nil? || result < options[:min] || result > options[:max]
+      end
+    end
+  end
+  result
+end
+
+def iterative_mode
+  algorithm = get_input("algorithm", "string", { values: ["P", "F"] }).upcase
+  operation = get_input("operation", "string", { values: ["A", "M"] }).upcase
+  max = Primes::Generator::calculate_max_boundary(algorithm, operation)
+  width = get_input "width", "integer", { min: 0, max: max }
+  height = get_input "height", "integer", { min: 0, max: max }
+  { width: width, height: height,
+    algorithm: algorithm,
+    operation: operation,
+    max: max }
 end
 
 begin
   parser.parse!
-  omitted_arg = options[:size].nil?
-  options[:size] = iterative_mode if omitted_arg
+  omitted_arg = options[:width].nil? || options[:height].nil? ||
+                options[:algorithm].nil? || options[:operation].nil?
+  options = iterative_mode if omitted_arg
+  options[:max] = Primes::Generator::calculate_max_boundary(options[:algorithm], options[:operation]) if options[:max].nil?
   puts ""
-  puts "n = #{options[:size]} #{" run the command #{File.basename($0)} --help for more details" if omitted_arg}"
+  puts "width=#{options[:width]}, height=#{options[:height]}, algorithm=#{options[:algorithm]}, operation=#{options[:operation]} #{" run the command #{File.basename($0)} --help for more details" if omitted_arg}"
   puts ""
-  puts "Procesing data please wait ..." if options[:size] >= Primes::Generator::BIG_VALUE
-  result = Primes::Matrix.create(options[:size])
+  big_value = options[:max] * 0.8 if options[:max]
+  puts "Procesing data please wait ..." if big_value && (options[:width] >= big_value ||
+                                                         options[:height] >= big_value)
+  result = Primes::Matrix.create(
+    options[:width],
+    options[:height],
+    options[:algorithm],
+    options[:operation]
+  )
   result.pretty_print
 rescue OptionParser::InvalidArgument => e
   STDERR.puts "#{e.message}, run the command #{File.basename($0)} --help for more details"
@@ -53,6 +100,8 @@ rescue OptionParser::InvalidOption => e
 rescue ArgumentError => e
   STDERR.puts "#{e.message}, run the command #{File.basename($0)} --help for more details"
 rescue Primes::Matrix::InvalidSizeError => e
+  STDERR.puts "#{e.message}, run the command #{File.basename($0)} --help for more details"
+rescue Primes::Matrix::InvalidArgumentError => e
   STDERR.puts "#{e.message}, run the command #{File.basename($0)} --help for more details"
   #rescue Exception => e
   #  STDERR.puts "Sorry, there was an unexpected error #{e.message}"

@@ -1,14 +1,17 @@
-# Prime numbers sum matrix
+# Code challenge Hubbado second part
 
 ## Problem explained
 
-Write a simple program which takes a single number n from the user and in response displays n\*n table, such that the content of cell (a,b) is a sum of a-th and b-th prime number.
-So for example for input `3` the output should read:
+• Allow user to define width and height of the matrix to build use non-square matrix.
+• Give user an option for a matrix cell values to use multiplication instead of addition (so instead of `<a-th prime> + <b-th prime> be `<a-th prime> \* <b-th prime>` • Give user an option to use Fibonacci numbers instead of prime numbers for matrix generation.
+
+So for example for input width=`3`, height=4, algorithm=fibonacci, operation=multiplitacion the output should read:
 
 ```shell
-4 5 7
-5 6 8
-7 8 10
+1 1 2 3 5
+1 1 2 3 5
+2 2 4 6 10
+3 3 6 9 15
 ```
 
 ## Technologies Used:
@@ -64,8 +67,8 @@ Run in iterative mode:
 $ ./exe/primes-generator
 ```
 
-Run in shortcut mode (with n = 3):
+Run in shortcut mode (with 5x4 matrix, fibonacci, addition):
 
 ```shell
-$ ./exe/primes-generator -n 3
+$ ./exe/primes-generator --width 5 --height 4 --algorithm F --operation M
 ```
