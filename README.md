@@ -3,7 +3,7 @@
 ## Problem explained
 
 - Allow user to define width and height of the matrix to build use non-square matrix.
-- Give user an option for a matrix cell values to use multiplication instead of addition (so instead of `<a-th prime> + <b-th prime> be `<a-th prime> \* <b-th prime>`)
+- Give user an option for a matrix cell values to use multiplication instead of addition (so instead of <a-th prime> + <b-th prime> be <a-th prime> \* <b-th prime>)
 - Give user an option to use Fibonacci numbers instead of prime numbers for matrix generation.
 
 So for example for input width=`3`, height=`4`, algorithm=(F)ibonacci, operation=(M)ultiplitacion the output should read:
