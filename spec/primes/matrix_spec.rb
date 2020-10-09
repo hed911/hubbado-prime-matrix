@@ -104,11 +104,11 @@ RSpec.describe Primes::Matrix do
     expect(Primes::Matrix.create(10, 10, "F", "M")[0].length).to eq(10)
   end
 
-  it "Raise InvalidSizeError width=1, height=1, algorithm=X, operation=Addition" do
+  it "Raise InvalidArgumentError width=1, height=1, algorithm=X, operation=Addition" do
     expect { Primes::Matrix.create(1, 1, "X", "A").length }.to raise_exception(Primes::Matrix::InvalidArgumentError)
   end
 
-  it "Raise InvalidSizeError width=1, height=1, algorithm=Fibonacci, operation=X" do
+  it "Raise InvalidArgumentError width=1, height=1, algorithm=Fibonacci, operation=X" do
     expect { Primes::Matrix.create(1, 1, "P", "X").length }.to raise_exception(Primes::Matrix::InvalidArgumentError)
   end
 end
