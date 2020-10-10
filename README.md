@@ -73,3 +73,22 @@ Run in shortcut mode (with 5x4 matrix, fibonacci, addition):
 ```shell
 $ ./exe/primes-generator --width 5 --height 4 --algorithm F --operation M
 ```
+
+## Code optimization:
+
+I used a hash as a constant to store the max values.
+
+```shell
+MAX_VALUES = {
+  "P" => {
+    "A" => Primes::Generator::MAX_SIZE_PRIME_ADDITION,
+    "M" => Primes::Generator::MAX_SIZE_PRIME_MULTIPLICATION
+  },
+  "F" => {
+    "A" => Primes::Generator::MAX_SIZE_FIBONACCI_ADDITION,
+    "M" => Primes::Generator::MAX_SIZE_FIBONACCI_MULTIPLICATION
+  }
+}
+```
+
+So I can easily access to that values without any conditions, for example MAX_VALUES["P"]["a"]
