@@ -23,15 +23,7 @@ module Primes
       if operation != "A" && operation != "M"
         raise InvalidArgumentError.new("Operation value (#{operation}) not allowed, only can be (A)ddition or (M)ultiplication")
       end
-      if algorithm == "P" && operation == "A"
-        max = Primes::Generator::MAX_SIZE_PRIME_ADDITION
-      elsif algorithm == "P" && operation == "M"
-        max = Primes::Generator::MAX_SIZE_PRIME_MULTIPLICATION
-      elsif algorithm == "F" && operation == "A"
-        max = Primes::Generator::MAX_SIZE_FIBONACCI_ADDITION
-      elsif algorithm == "F" && operation == "M"
-        max = Primes::Generator::MAX_SIZE_FIBONACCI_MULTIPLICATION
-      end
+      max = Primes::Generator::MAX_VALUES[algorithm][operation]
       self.validate("Width", width, max)
       self.validate("Heigh", height, max)
       result = []
@@ -41,7 +33,7 @@ module Primes
       for i in (0..(height - 1))
         result[i] = []
         for j in (0..(width - 1))
-          result[i][j] = (operation == "A") ? values[i] + values[j] : values[i] * values[j]
+          yield(result, values, i, j)
         end
       end
       result

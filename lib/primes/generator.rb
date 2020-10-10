@@ -62,6 +62,7 @@ module Primes
       return result
     end
 
+    # Deprecated: Please use `Primes::Generator::MAX_VALUES` instead
     def self.calculate_max_boundary(algorithm, operation)
       if algorithm == "P" && operation == "A"
         max = Primes::Generator::MAX_SIZE_PRIME_ADDITION
