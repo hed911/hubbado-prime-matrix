@@ -92,3 +92,46 @@ MAX_VALUES = {
 ```
 
 So I can easily access to that values without any conditions, for example MAX_VALUES["P"]["a"]
+
+I used a hash of lambdas as a constant to encapsulate this functions to the keys "A" and "M" respectively
+
+```shell
+OPERATIONS = {
+  "A" => lambda { |matrix, values, i, j| matrix[i][j] = values[i] + values[j] },
+  "M" => lambda { |matrix, values, i, j| matrix[i][j] = values[i] * values[j] },
+}
+```
+
+Next, instead of this sentence "(operation == "A") ? values[i] + values[j] : values[i] \* values[j]"
+I would put a yield to make this logic variable
+
+```shell
+def self.create(width, height, algorithm, operation)
+  if algorithm != "P" && algorithm != "F"
+    raise InvalidArgumentError.new("Algorithm value (#{algorithm}) not allowed, only can be (P)rimes or (F)ibonacci")
+  end
+  if operation != "A" && operation != "M"
+    raise InvalidArgumentError.new("Operation value (#{operation}) not allowed, only can be (A)ddition or (M)ultiplication")
+  end
+  max = Primes::Generator.MAX_VALUES[algorithm][operation]
+  self.validate("Width", width, max)
+  self.validate("Heigh", height, max)
+  result = []
+  max = [height, width].max
+  values = (algorithm == "P") ? Primes::Generator.prime_numbers_in_array(max) :
+    Primes::Generator.fibonacci_numbers_in_array(max)
+  for i in (0..(height - 1))
+    result[i] = []
+    for j in (0..(width - 1))
+      result[i][j] = yield(values, i, j)
+    end
+  end
+  result
+end
+```
+
+So I can call the method including a block
+
+```shell
+Primes::Matrix.create(3, 3, "F", "M"){ |m, v, i, j| Primes::Generator::OPERATIONS["M"].call(m, v, i, j) }
+```
