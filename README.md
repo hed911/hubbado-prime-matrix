@@ -81,13 +81,13 @@ I used a hash as a constant to store the max values.
 ```shell
 MAX_VALUES = {
   "P" => {
-    "A" => Primes::Generator::MAX_SIZE_PRIME_ADDITION,
-    "M" => Primes::Generator::MAX_SIZE_PRIME_MULTIPLICATION
+    "A" => MAX_SIZE_PRIME_ADDITION,
+    "M" => MAX_SIZE_PRIME_MULTIPLICATION,
   },
   "F" => {
-    "A" => Primes::Generator::MAX_SIZE_FIBONACCI_ADDITION,
-    "M" => Primes::Generator::MAX_SIZE_FIBONACCI_MULTIPLICATION
-  }
+    "A" => MAX_SIZE_FIBONACCI_ADDITION,
+    "M" => MAX_SIZE_FIBONACCI_MULTIPLICATION,
+  },
 }
 ```
 
