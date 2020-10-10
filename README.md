@@ -107,8 +107,8 @@ OPERATIONS = {
 }
 ```
 
-Next, instead of this sentence "(operation == "A") ? values[i] + values[j] : values[i] \* values[j]"
-I would put a yield to make this logic variable
+Next, instead of this sentence `(operation == "A") ? values[i] + values[j] : values[i] * values[j]`
+I would put a `yield` to make this logic variable
 
 ```shell
 def self.create(width, height, algorithm, operation)
@@ -135,7 +135,7 @@ def self.create(width, height, algorithm, operation)
 end
 ```
 
-So I can call the method including a block
+So I can call the method including a block using the `OPERATIONS` constant defined before
 
 ```shell
 Primes::Matrix.create(3, 3, "F", "M"){ |m, v, i, j| Primes::Generator::OPERATIONS["M"].call(m, v, i, j) }
