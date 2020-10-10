@@ -91,7 +91,12 @@ MAX_VALUES = {
 }
 ```
 
-So I can easily access to that values without any conditions, for example MAX_VALUES["P"]["a"]
+So I can easily access to that values without any conditions.
+For example:
+
+```shell
+MAX_VALUES["P"]["A"]
+```
 
 I used a hash of lambdas as a constant to encapsulate this functions to the keys "A" and "M" respectively
 
