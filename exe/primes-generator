@@ -77,7 +77,7 @@ begin
   omitted_arg = options[:width].nil? || options[:height].nil? ||
                 options[:algorithm].nil? || options[:operation].nil?
   options = iterative_mode if omitted_arg
-  options[:max] = Primes::Generator::MAX_VALUES[algorithm][operation] if options[:max].nil?
+  options[:max] = Primes::Generator::MAX_VALUES[options[:algorithm]][options[:operation]] if options[:max].nil?
   puts ""
   puts "width=#{options[:width]}, height=#{options[:height]}, algorithm=#{options[:algorithm]}, operation=#{options[:operation]} #{" run the command #{File.basename($0)} --help for more details" if omitted_arg}"
   puts ""
