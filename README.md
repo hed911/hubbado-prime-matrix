@@ -118,7 +118,7 @@ def self.create(width, height, algorithm, operation)
   if operation != "A" && operation != "M"
     raise InvalidArgumentError.new("Operation value (#{operation}) not allowed, only can be (A)ddition or (M)ultiplication")
   end
-  max = Primes::Generator.MAX_VALUES[algorithm][operation]
+  max = Primes::Generator::MAX_VALUES[algorithm][operation]
   self.validate("Width", width, max)
   self.validate("Heigh", height, max)
   result = []
@@ -128,7 +128,7 @@ def self.create(width, height, algorithm, operation)
   for i in (0..(height - 1))
     result[i] = []
     for j in (0..(width - 1))
-      result[i][j] = yield(values, i, j)
+      yield(result, values, i, j)
     end
   end
   result
